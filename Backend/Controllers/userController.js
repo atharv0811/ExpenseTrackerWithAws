@@ -1,5 +1,6 @@
 const path = require("path");
 const userDB = require("../Model/userModel");
+const bcrypt = require('bcrypt');
 
 exports.getRegistrationPage = (req, res) => {
   res.sendFile(path.join(__dirname, "..", '..', 'Frontend', "Views", "register.html"));
@@ -13,9 +14,9 @@ exports.addUser = async (req, res) => {
   const body = req.body;
   const name = body.nameInput;
   const email = body.emailInput;
-  const password = body.passwordInput;
 
   try {
+    const password = await bcrypt.hash(body.passwordInput, 10)
     await userDB.create({
       name: name,
       email: email,
@@ -43,14 +44,8 @@ exports.checkLogin = async (req, res) => {
     })
 
     if (data) {
-      const loginCheck = await userDB.findOne({
-        where: {
-          email: email,
-          password: password
-        }
-      })
-
-      if (loginCheck) {
+      const checkLogin = await bcrypt.compare(password, data.password);
+      if (checkLogin) {
         res.status(201).json({ data: 'success' });
       }
       else {
