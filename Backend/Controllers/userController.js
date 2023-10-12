@@ -2,11 +2,11 @@ const path = require("path");
 const userDB = require("../Model/userModel");
 
 exports.getRegistrationPage = (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "Views", "register.html"));
+  res.sendFile(path.join(__dirname, "..", '..', 'Frontend', "Views", "register.html"));
 };
 
 exports.getLoginPage = (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "Views", "login.html"));
+  res.sendFile(path.join(__dirname, "..", '..', 'Frontend', "Views", "login.html"));
 };
 
 exports.addUser = async (req, res) => {
