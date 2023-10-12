@@ -17,7 +17,6 @@ document.getElementById('registerationForm').addEventListener('submit', async (e
                     "Content-Type": "application/json"
                 }
             });
-            console.log(response)
             const data = response.data;
             console.log(data)
             if (data.data === "success") {
