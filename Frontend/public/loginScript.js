@@ -14,7 +14,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         });
         if (result.data.data == 'success') {
             alert('Login Successfull');
-            window.location = '/user/home'
+            window.location = '/expense/expense'
         }
     } catch (error) {
         if (error.response.data.data) {
