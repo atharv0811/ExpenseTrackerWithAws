@@ -1,13 +1,17 @@
 const path = require('path');
 const expenseData = require('../Model/expenseModel');
 
+exports.mainHome = (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'Views', 'homeAfterLogin.html'))
+}
+
 exports.getExpense = (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'Views', 'expense.html'))
 }
 
 exports.addExpense = async (req, res) => {
     const body = req.body;
-    console.log(body)
+    const id = req.user.id;
     const expenseAmount = body.ExpenseAmount;
     const description = body.ExpenseDesc;
     const expenseType = body.ExpenseType;
@@ -15,7 +19,8 @@ exports.addExpense = async (req, res) => {
         await expenseData.create({
             expenseAmount: expenseAmount,
             description: description,
-            expenseType: expenseType
+            expenseType: expenseType,
+            userDatumId: id
         });
         res.status(201).json({ data: 'success' })
     } catch (error) {
@@ -29,7 +34,8 @@ exports.getExpensePage = (req, res) => {
 
 exports.getExpenseData = async (req, res) => {
     try {
-        const result = await expenseData.findAll();
+        const id = req.user.id;
+        const result = await expenseData.findAll({ where: { userDatumId: id } });
         res.json(result)
     } catch (error) {
         res.status(500).json({ data: 'error' });
@@ -39,8 +45,10 @@ exports.getExpenseData = async (req, res) => {
 
 exports.deleteExpenseData = async (req, res) => {
     try {
-        const id = req.body.id
-        await expenseData.destroy({ where: { id: id } });
+        const id = req.body.id;
+        const userid = req.user.id;
+
+        await expenseData.destroy({ where: { id: id, userDatumId: userid } });
         res.redirect('/expense/viewExpenses');
     }
     catch (err) {
@@ -52,11 +60,12 @@ exports.deleteExpenseData = async (req, res) => {
 exports.updateExpense = async (req, res) => {
     const body = req.body;
     const id = body.id;
+    const userid = req.user.id;
     const expenseAmount = body.data.ExpenseAmount;
     const description = body.data.ExpenseDesc;
     const expenseType = body.data.ExpenseType;
     try {
-        const ExpenseData = await expenseData.findByPk(id);
+        const ExpenseData = await expenseData.findOne({ where: { id: id, userDatumId: userid } });
         ExpenseData.expenseAmount = expenseAmount;
         ExpenseData.description = description;
         ExpenseData.expenseType = expenseType;

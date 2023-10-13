@@ -11,13 +11,30 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navBeforeLogin">
+        <a class="navbar-brand" href="/expense/mainHome">Expense Tracker</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/expense/expense" id="expense">Add Expenses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link float-end active" href="/expense/viewExpenses" id="view-expense">View
+                        Expenses</a>
+                </li>
+            </ul>
+        </div>
+        <button class="btn mr-1 btn-danger btn-sm float-right mx-3">
+            <a href="/" class="text-decoration-none text-light">LogOut</a>
+        </button>
+    </nav>
     <div class="container mt-5">
         <div class="text-center">
-            <h3>Your All Expenses</h3>
+            <h3 class="text-primary">Your All Expenses</h3>
         </div>
         <div class="table-responsive">
-            <table class="table" id="table">
-                <thead class="text-center">
+            <table class="table table-bordered table-hover" id="table">
+                <thead class="bg-primary text-white text-center">
                     <tr>
                         <th scope="col">Amount</th>
                         <th scope="col">Category</th>

@@ -14,6 +14,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         });
         if (result.data.data == 'success') {
             alert('Login Successfull');
+            localStorage.setItem('token', result.data.token)
             window.location = '/expense/expense'
         }
     } catch (error) {

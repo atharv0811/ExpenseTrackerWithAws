@@ -1,6 +1,7 @@
 const path = require("path");
 const userDB = require("../Model/userModel");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.getRegistrationPage = (req, res) => {
   res.sendFile(path.join(__dirname, "..", '..', 'Frontend', "Views", "register.html"));
@@ -46,7 +47,7 @@ exports.checkLogin = async (req, res) => {
     if (data) {
       const checkLogin = await bcrypt.compare(password, data.password);
       if (checkLogin) {
-        res.status(201).json({ data: 'success' });
+        res.status(201).json({ data: 'success', token: generateAccessToken(data.id) });
       }
       else {
         res.status(401).json({ data: 'Failed' });
@@ -63,4 +64,8 @@ exports.checkLogin = async (req, res) => {
 
 exports.getHome = (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'Views', 'home.html'))
+}
+
+function generateAccessToken(id) {
+  return jwt.sign({ userid: id }, '7b44adaa2e7cf67c6c0ce4aa6cbd647774cb1ab2f46dd4509c2d251b97e6360f')
 }

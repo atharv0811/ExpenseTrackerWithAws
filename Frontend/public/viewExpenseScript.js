@@ -3,7 +3,12 @@ let tabelbody = document.getElementById("tablebody");
 document.addEventListener('DOMContentLoaded', fetchData());
 
 async function fetchData() {
-    const result = await axios.get('/expense/viewExpensesData');
+    const token = localStorage.getItem('token')
+    const result = await axios.get('/expense/viewExpensesData', {
+        headers: {
+            "Authorization": token
+        }
+    });
     displayData(result.data)
 }
 
@@ -52,8 +57,19 @@ async function displayData(data) {
 }
 
 async function deleteData(id) {
-    await axios.post(`/expense/deleteExpensedata`, { id });
-    window.location.href = '/expense/viewExpenses';
+    const token = localStorage.getItem('token')
+    try {
+        await axios.post(`/expense/deleteExpensedata`, { id }, {
+            headers: {
+                "Authorization": token
+            }
+        });
+        window.location.href = '/expense/viewExpenses';
+    }
+    catch (err) {
+        console.log(err)
+    }
+
 }
 
 async function setUpdate(data) {
