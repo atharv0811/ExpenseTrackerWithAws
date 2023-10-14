@@ -67,5 +67,5 @@ exports.getHome = (req, res) => {
 }
 
 function generateAccessToken(id) {
-  return jwt.sign({ userid: id }, '7b44adaa2e7cf67c6c0ce4aa6cbd647774cb1ab2f46dd4509c2d251b97e6360f')
+  return jwt.sign({ userid: id }, process.env.SECRETKEY)
 }

@@ -18,6 +18,11 @@ const userDB = sequelize.define('userData', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    isPremium: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
     }
 });
 
