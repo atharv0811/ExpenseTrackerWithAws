@@ -23,6 +23,11 @@ const userDB = sequelize.define('userData', {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: false
+    },
+    totalExpense: {
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+        defaultValue: 0
     }
 });
 
