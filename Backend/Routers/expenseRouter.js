@@ -10,5 +10,7 @@ expenseRouter.get('/viewExpenses', expenseController.getExpensePage)
 expenseRouter.get('/viewExpensesData', authenticateUser, expenseController.getExpenseData);
 expenseRouter.post('/deleteExpensedata', authenticateUser, expenseController.deleteExpenseData);
 expenseRouter.post('/update-expense', authenticateUser, expenseController.updateExpense);
+expenseRouter.get('/leaderBoardPage', expenseController.getLeaderBoardPage);
+expenseRouter.get('/viewLeaderBoardData', expenseController.getLeaderBoardData);
 
 module.exports = expenseRouter;

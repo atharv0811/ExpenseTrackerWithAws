@@ -1,5 +1,6 @@
 const path = require('path');
 const expenseData = require('../Model/expenseModel');
+const userDB = require('../Model/userModel');
 
 exports.mainHome = (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'Frontend', 'Views', 'homeAfterLogin.html'))
@@ -76,3 +77,38 @@ exports.updateExpense = async (req, res) => {
         res.status(500).json({ data: 'error' });
     }
 }
+
+exports.getLeaderBoardPage = (req, res) => {
+    res.sendFile(path.join(__dirname, "..", '..', 'Frontend', "Views", "expenseLeaderBoard.html"));
+};
+
+exports.getLeaderBoardData = async (req, res) => {
+    try {
+        const response = await expenseData.findAll();
+        const dataMap = new Map();
+
+        for (let i = 0; i < response.length; i++) {
+            const userid = response[i].userDatumId;
+            const user = await userDB.findOne({ where: { id: userid } });
+            const expenseAmount = parseInt(response[i].expenseAmount);
+
+            if (dataMap.has(user.name)) {
+                dataMap.set(user.name, dataMap.get(user.name) + expenseAmount);
+            } else {
+                dataMap.set(user.name, expenseAmount);
+            }
+        }
+
+        let leaderboardData = [];
+        dataMap.forEach((value, key) => {
+            leaderboardData.push({
+                name: key,
+                amount: value
+            });
+        });
+        res.status(200).json(leaderboardData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error });
+    }
+};
