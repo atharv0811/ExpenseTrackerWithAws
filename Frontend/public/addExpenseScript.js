@@ -97,6 +97,7 @@ Premiumbtn.addEventListener('click', async (e) => {
                 "Authorization": token
             }
         });
+        console.log(response)
         const options = {
             "key": response.data.key_id,
             "order_id": response.data.result.id,
