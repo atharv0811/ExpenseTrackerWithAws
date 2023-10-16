@@ -34,7 +34,7 @@ async function displayData(data) {
             var delbutton = document.createElement('button');
             delbutton.className = "btn btn-danger btn-sm float-right m-0 delete";
             delbutton.addEventListener('click', () => {
-                deleteData(data[i].id);
+                deleteData(data[i].id, data[i].expenseAmount);
             });
             delbutton.appendChild(document.createTextNode("Delete"));
             let td5 = document.createElement("td");
@@ -56,14 +56,16 @@ async function displayData(data) {
     }
 }
 
-async function deleteData(id) {
+async function deleteData(id, ExpenseAmount) {
     const token = localStorage.getItem('token')
     try {
-        await axios.post(`/expense/deleteExpensedata`, { id }, {
-            headers: {
-                "Authorization": token
-            }
-        });
+        await axios.post(`/expense/deleteExpensedata`,
+            { id, ExpenseAmount },
+            {
+                headers: {
+                    "Authorization": token
+                }
+            });
         window.location.href = '/expense/viewExpenses';
     }
     catch (err) {
