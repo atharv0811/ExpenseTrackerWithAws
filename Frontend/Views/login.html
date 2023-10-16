@@ -46,9 +46,14 @@
                                             placeholder="Your Email" />
                                     </div>
 
-                                    <div class="form-outline mb-4">
+                                    <div class="form-outline mb-1">
                                         <input type="password" id="passwordInput" class="form-control form-control-lg"
                                             placeholder="Password" />
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <a href="" id="forgotPasswordLink" class="text-body">Forgot
+                                            password?</a>
                                     </div>
 
                                     <div class="d-flex justify-content-center">
@@ -69,7 +74,39 @@
             </div>
         </div>
     </section>
+    <div class="modal top fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel"
+        aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+        <div class="modal-dialog" style="width: 300px;">
+            <div class="modal-content text-center">
+                <div class="modal-header h5 text-white bg-primary justify-content-center">
+                    Password Reset
+                </div>
+                <div class="modal-body px-5">
+                    <p class="py-2">
+                        Enter your email address and we'll send you an email with instructions to reset your
+                        password.
+                    </p>
+                    <div class="form-outline">
+                        <label class="form-label" for="EmailId">Enter Email Address:</label>
+                        <input type="email" id="EmailId" class="form-control my-3" name="EmailId" required />
+                    </div>
+                    <button type="button" id="forgotBtn" class="btn btn-primary w-100">Reset
+                        password</button>
+                    <div class="d-flex justify-content-between mt-4">
+                        <a class="" href="/user/login">Login</a>
+                        <a class="" href="/user/register">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    document.getElementById('forgotPasswordLink').addEventListener('click', function (event) {
+        event.preventDefault();
+        $('#forgotPasswordModal').modal('show');
+    });
+</script>
 <script src="/loginScript.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

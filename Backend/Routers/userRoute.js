@@ -6,6 +6,7 @@ userRouter.get("/register", userController.getRegistrationPage);
 userRouter.get("/login", userController.getLoginPage);
 userRouter.post('/addUser', userController.addUser);
 userRouter.post('/check-login', userController.checkLogin);
-userRouter.get('/home', userController.getHome)
+userRouter.get('/home', userController.getHome);
+userRouter.post('/forgetPassword', userController.forgetPassword);
 
 module.exports = userRouter;
