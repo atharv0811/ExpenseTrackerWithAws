@@ -64,7 +64,7 @@ exports.getExpensePage = (req, res) => {
 };
 
 exports.getExpenseData = async (req, res) => {
-    const limit = 2;
+    const limit = +req.query.rows || 5;
     let totalItems;
     try {
         const page = +req.query.page || 1;
