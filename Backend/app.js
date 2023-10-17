@@ -10,6 +10,8 @@ const userDB = require("./Model/userModel");
 const expenseData = require("./Model/expenseModel");
 const OrderData = require("./Model/paymentModel");
 const forgetPasswordModel = require("./Model/forgetPasswordModel");
+const UrlDb = require("./Model/fileDownloadUrlModel");
+const yearlyReportDb = require("./Model/yearlyReaportModel");
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
@@ -29,6 +31,10 @@ userDB.hasMany(OrderData);
 OrderData.belongsTo(userDB);
 userDB.hasMany(forgetPasswordModel);
 forgetPasswordModel.belongsTo(userDB);
+userDB.hasMany(yearlyReportDb);
+yearlyReportDb.belongsTo(userDB);
+userDB.hasMany(UrlDb);
+UrlDb.belongsTo(userDB);
 
 sequelize.sync()
     .then(() => {

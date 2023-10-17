@@ -21,17 +21,16 @@
             <h3>Daily Data</h3>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="table1">
                 <thead class="text-center bg-primary text-white">
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Category</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Type</th>
                     </tr>
                 </thead>
-                <tbody id="dailyTableBody" class="text-center"></tbody>
+                <tbody id="tablebody1" class="text-center"></tbody>
             </table>
         </div>
     </div>
@@ -41,17 +40,16 @@
             <h3>Weekly Data</h3>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="table2">
                 <thead class="text-center bg-primary text-white">
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Category</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Type</th>
                     </tr>
                 </thead>
-                <tbody id="weeklyTableBody" class="text-center"></tbody>
+                <tbody id="tablebody2" class="text-center"></tbody>
             </table>
         </div>
     </div>
@@ -61,17 +59,16 @@
             <h3>Monthly Data</h3>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="table3">
                 <thead class="text-center bg-primary text-white">
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Category</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Type</th>
                     </tr>
                 </thead>
-                <tbody id="monthlyTableBody" class="text-center"></tbody>
+                <tbody id="tablebody3" class="text-center"></tbody>
             </table>
         </div>
     </div>
@@ -81,22 +78,38 @@
             <h3>Yearly Report</h3>
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="table4">
                 <thead class="text-center bg-primary text-white">
                     <tr>
                         <th scope="col">Month</th>
-                        <th scope="col">Income</th>
                         <th scope="col">Expense</th>
-                        <th scope="col">Savings</th>
                     </tr>
                 </thead>
-                <tbody id="yearlyTableBody" class="text-center"></tbody>
+                <tbody id="tablebody4" class="text-center"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class=" container mt-5">
+        <div class="text-center">
+            <h3>All Downloads</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="table5">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">File Url</th>
+                    </tr>
+                </thead>
+                <tbody id="tablebody5" class="text-center">
+                </tbody>
             </table>
         </div>
     </div>
 
     <div class="fixed-bottom fixed-right m-4">
-        <a href="#" download class="btn btn-primary rounded-circle btn-lg">
+        <a href="#" download class="btn btn-primary rounded-circle btn-lg" id="btnDownload">
             <i class="fas fa-download"></i>
         </a>
     </div>

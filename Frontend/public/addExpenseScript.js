@@ -13,9 +13,15 @@ Premiumbtn.textContent = 'Buy Premium Membership';
 
 const LeaderBoardbtn = document.createElement('button');
 LeaderBoardbtn.type = 'button';
-LeaderBoardbtn.className = "btn btn-primary mb-2";
+LeaderBoardbtn.className = "btn btn-primary m-2";
 LeaderBoardbtn.id = "btnPremumSubmit";
 LeaderBoardbtn.textContent = 'View LeaderBoard';
+
+const Monetarybtn = document.createElement('button');
+Monetarybtn.type = 'button';
+Monetarybtn.className = "btn btn-primary m-2";
+Monetarybtn.id = "Monetarybtn";
+Monetarybtn.textContent = 'View Monetary Data';
 
 if (updateData) {
     btnSubmit.textContent = 'Update';
@@ -38,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         else if (response.data.result === "true") {
             PremiumDiv.innerHTML = '<h5>Premium User</h5>';
             PremiumDiv.appendChild(LeaderBoardbtn);
+            PremiumDiv.appendChild(Monetarybtn);
         }
     } catch (error) {
         alert('Something Went Wrong!');
@@ -126,4 +133,8 @@ Premiumbtn.addEventListener('click', async (e) => {
 
 LeaderBoardbtn.addEventListener('click', () => {
     window.location.href = '/expense/leaderBoardPage';
+})
+
+Monetarybtn.addEventListener('click', () => {
+    window.location.href = '/expense/viewMonetaryData';
 })
