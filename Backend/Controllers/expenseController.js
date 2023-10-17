@@ -64,10 +64,22 @@ exports.getExpensePage = (req, res) => {
 };
 
 exports.getExpenseData = async (req, res) => {
+    const limit = 2;
+    let totalItems;
     try {
+        const page = +req.query.page || 1;
         const id = req.user.id;
-        const result = await expenseData.findAll({ where: { userDatumId: id } });
-        res.json(result)
+        totalItems = await expenseData.count({ where: { userDatumId: id } });
+        const result = await expenseData.findAll({ where: { userDatumId: id }, offset: (page - 1) * limit, limit: limit });
+        res.json({
+            result,
+            currentPage: page,
+            hasNextPage: limit * page < totalItems,
+            nextPage: page + 1,
+            hasPreviousPage: page > 1,
+            previousPage: page - 1,
+            lastPage: Math.ceil(totalItems / limit)
+        });
     } catch (error) {
         res.status(500).json({ data: 'error' });
         console.log(error)
