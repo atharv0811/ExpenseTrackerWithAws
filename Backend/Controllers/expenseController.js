@@ -22,6 +22,7 @@ exports.addExpense = async (req, res) => {
     const expenseAmount = parseInt(body.ExpenseAmount);
     const description = body.ExpenseDesc;
     const expenseType = body.ExpenseType;
+    const date = formatDate(new Date().toLocaleDateString());
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
@@ -36,6 +37,7 @@ exports.addExpense = async (req, res) => {
         }
         await expenseData.create({
             expenseAmount: expenseAmount,
+            date: date,
             description: description,
             expenseType: expenseType,
             userDatumId: id
@@ -48,7 +50,7 @@ exports.addExpense = async (req, res) => {
         else {
             await yearlyReportDb.create({ year: formattedDate, TotalExpense: expenseAmount, userDatumId: id }, { transaction: t })
         }
-        await userDB.update({ totalExpense: totalExpense + expenseAmount }, { where: { id: id }, transaction: t });
+        await userDB.update({ date: date, totalExpense: totalExpense + expenseAmount }, { where: { id: id }, transaction: t });
 
         await t.commit();
         res.status(201).json({ data: 'success' })
@@ -88,6 +90,7 @@ exports.getExpenseData = async (req, res) => {
 
 exports.deleteExpenseData = async (req, res) => {
     const t = await sequelize.transaction();
+    const date = formatDate(new Date().toLocaleDateString());
     try {
         const id = req.body.id;
         const userid = req.user.id;
@@ -110,7 +113,7 @@ exports.deleteExpenseData = async (req, res) => {
 
         await expenseData.destroy({ where: { id: id, userDatumId: userid }, transaction: t });
         await yearlyReportDb.update({ TotalExpense: YearlytotalExpense - expenseAmount }, { where: { userDatumId: userid, year: formattedDate }, transaction: t });
-        await userDB.update({ totalExpense: totalExpense - expenseAmount }, { where: { id: userid }, transaction: t })
+        await userDB.update({ date: date, totalExpense: totalExpense - expenseAmount }, { where: { id: userid }, transaction: t })
 
         await t.commit();
         res.redirect('/expense/viewExpenses');
@@ -124,7 +127,7 @@ exports.deleteExpenseData = async (req, res) => {
 
 exports.updateExpense = async (req, res) => {
     const t = await sequelize.transaction();
-
+    const date = formatDate(new Date().toLocaleDateString());
     try {
         const body = req.body;
         const id = body.id;
@@ -141,6 +144,7 @@ exports.updateExpense = async (req, res) => {
         const currentYear = updatedAt.getFullYear();
         const formattedDate = `${currentMonth.toString().padStart(2, '0')}-${currentYear}`;
 
+        ExpenseData.date = date;
         ExpenseData.expenseAmount = newExpenseAmount;
         ExpenseData.description = newDescription;
         ExpenseData.expenseType = newExpenseType;
@@ -156,7 +160,7 @@ exports.updateExpense = async (req, res) => {
         const TotalexpenseAmountDifference = parseInt(oldExpenseAmount - newExpenseAmount);
 
         await yearlyReportDb.update({ TotalExpense: YearlytotalExpense - TotalexpenseAmountDifference }, { where: { userDatumId: userid, year: formattedDate }, transaction: t });
-        await userDB.update({ totalExpense: totalExpense - expenseAmountDifference }, { where: { id: userid }, transaction: t });
+        await userDB.update({ date: date, totalExpense: totalExpense - expenseAmountDifference }, { where: { id: userid }, transaction: t });
 
         await t.commit();
         res.status(201).json({ data: 'success' })
@@ -258,4 +262,22 @@ exports.downloadExpense = async (req, res) => {
             console.error(error);
             res.status(500).json({ error: 'Failed to upload file to S3' });
         });
+}
+
+module.exports.viewReportExpensesData = async (req, res) => {
+    try {
+        const id = req.user.id;
+        const result = await expenseData.findAll({ where: { userDatumId: id } });
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({ data: 'error' });
+        console.log(err);
+    }
+}
+
+function formatDate(currentDate) {
+    const [month, day, year] = currentDate.split('/'); // Assuming the date format is MM/DD/YYYY
+    const formattedDate = `${day}/${month}/${year}`;
+
+    return formattedDate;
 }

@@ -6,7 +6,6 @@ const sequelize = require("../db");
 var SibApiV3Sdk = require('sib-api-v3-sdk');
 const { v4: uuidv4 } = require('uuid');
 const forgetPasswordModel = require("../Model/forgetPasswordModel");
-const { where } = require('sequelize');
 
 exports.getRegistrationPage = (req, res) => {
   res.sendFile(path.join(__dirname, "..", '..', 'Frontend', "Views", "register.html"));
@@ -21,11 +20,13 @@ exports.addUser = async (req, res) => {
   const name = body.nameInput;
   const email = body.emailInput;
   const passwordInput = body.passwordInput;
+  const date = formatDate(new Date().toLocaleDateString());
   const t = await sequelize.transaction();
 
   try {
     const password = await bcrypt.hash(passwordInput, 10);
     await userDB.create({
+      date: date,
       name: name,
       email: email,
       password: password
@@ -146,12 +147,13 @@ exports.getForgetPasswordPage = async (req, res) => {
 exports.updatePasswordData = async (req, res) => {
   const id = req.body.id;
   const password = req.body.password;
+  const date = formatDate(new Date().toLocaleDateString());
   const t = await sequelize.transaction();
   try {
     const response = await forgetPasswordModel.findOne({ where: { id: id }, attributes: ['userDatumId'], transaction: t });
     const userId = response.userDatumId;
     const passWordHashed = await bcrypt.hash(password, 10);
-    await userDB.update({ password: passWordHashed }, { where: { id: userId }, transaction: t });
+    await userDB.update({ date: date, password: passWordHashed }, { where: { id: userId }, transaction: t });
     await t.commit();
     res.status(200).json({ message: 'Password updated successfully' });
   } catch (error) {
@@ -163,4 +165,11 @@ exports.updatePasswordData = async (req, res) => {
 
 function generateAccessToken(id) {
   return jwt.sign({ userid: id }, process.env.SECRETKEY);
+}
+
+function formatDate(currentDate) {
+  const [month, day, year] = currentDate.split('/');
+  const formattedDate = `${day}/${month}/${year}`;
+
+  return formattedDate;
 }

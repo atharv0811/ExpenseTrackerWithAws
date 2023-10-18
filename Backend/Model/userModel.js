@@ -6,6 +6,10 @@ const userDB = sequelize.define('userData', {
         primaryKey: true,
         autoIncrement: true
     },
+    date: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     name: {
         type: Sequelize.STRING,
         allowNull: false

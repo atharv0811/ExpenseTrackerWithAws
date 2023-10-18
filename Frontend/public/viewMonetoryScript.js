@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', fetchData);
 
 async function fetchData() {
     const token = localStorage.getItem('token');
-    const result = await axios.get('/expense/viewExpensesData', {
+    const result = await axios.get('/expense/viewReportExpensesData', {
         headers: {
             "Authorization": token
         }

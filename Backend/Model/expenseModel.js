@@ -6,6 +6,10 @@ const expenseData = sequelize.define('expenseData', {
         primaryKey: true,
         autoIncrement: true
     },
+    date: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     expenseAmount: {
         type: Sequelize.DECIMAL,
         allowNull: false
