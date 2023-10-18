@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const express = require("express");
+require('dotenv').config();
 const router = require("./Routers/routes");
 const userRouter = require("./Routers/userRoute");
 const path = require('path');
@@ -13,7 +14,6 @@ const forgetPasswordModel = require("./Model/forgetPasswordModel");
 const UrlDb = require("./Model/fileDownloadUrlModel");
 const yearlyReportDb = require("./Model/yearlyReaportModel");
 const app = express();
-require('dotenv').config();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
