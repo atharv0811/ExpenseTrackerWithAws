@@ -13,12 +13,14 @@ const OrderData = require("./Model/paymentModel");
 const forgetPasswordModel = require("./Model/forgetPasswordModel");
 const UrlDb = require("./Model/fileDownloadUrlModel");
 const yearlyReportDb = require("./Model/yearlyReaportModel");
+const helmet = require('helmet');
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '..', 'Frontend', 'public')));
+app.use(helmet());
 
 app.use(router);
 app.use("/user", userRouter);
